@@ -3,7 +3,7 @@ import numpy as np
 from code.utils import kl_bernoulli, bisection
 
 
-class DefaultAlgorithm(object):
+class BaseAlgorithm(object):
     
     def __init__(self, bandit):
 
@@ -60,7 +60,7 @@ class DefaultAlgorithm(object):
             self.update(i)
 
 
-class FTL(DefaultAlgorithm):
+class FTL(BaseAlgorithm):
   
     def select_next_arm(self):
         self.step += 1
@@ -69,7 +69,7 @@ class FTL(DefaultAlgorithm):
                 return k
         return np.argmax(self.mean_estimates)
 
-class UCB(DefaultAlgorithm):
+class UCB(BaseAlgorithm):
     
     def __init__(self, bandit, sigma_square):
         super(UCB, self).__init__(bandit)
@@ -85,7 +85,7 @@ class UCB(DefaultAlgorithm):
         return np.argmax(self.upper_bounds)
 
 
-class UCB_V(DefaultAlgorithm):
+class UCB_V(BaseAlgorithm):
     
     def __init__(self, bandit, b, ksi, c):
         super(UCB_V, self).__init__(bandit)
@@ -119,7 +119,7 @@ class UCB_V(DefaultAlgorithm):
         return np.argmax(self.upper_bounds)
 
 
-class kl_UCB(DefaultAlgorithm):
+class kl_UCB(BaseAlgorithm):
   
     def select_next_arm(self):
         self.step += 1
